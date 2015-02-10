@@ -64,4 +64,18 @@
   background-color: #1a1a1a!important;
 }
 
+.menu {
+  height: 100%;
+  width: 16.6667%;
+}
 
+#col-menu {
+  height: 100%;
+  background-color: #444444;
+  position: fixed;
+}
+
+#navbar-top {
+  margin-bottom: 0px;
+  background-color: #444444;
+}
