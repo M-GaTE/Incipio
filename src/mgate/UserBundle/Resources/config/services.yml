@@ -25,6 +25,6 @@ parameters:
 services:
     mgate_user.password_resetting:
         class: mgate\UserBundle\EventListener\RegistrationListener
-        arguments: [ @mailer, @templating ]
+        arguments: [ @mailer, @templating, @service_container ]
         tags:
             - { name: kernel.event_subscriber }

@@ -28,6 +28,7 @@ use FOS\UserBundle\Event\FilterUserResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 /**
  * Listener responsible to change the redirection at the end of the password resetting
@@ -36,11 +37,13 @@ class RegistrationListener implements EventSubscriberInterface
 {
     private $mailer;
     private $templating;
+    private $container;
 
-    public function __construct(\Swift_Mailer $mailer, $templating)
+    public function __construct(\Swift_Mailer $mailer, $templating, Container $container)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->container = $container;
     }
 
     /**
