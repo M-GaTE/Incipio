@@ -1,3 +1,35 @@
+@charset "UTF-8";
+
+.glyphicon-bell:before {
+  content: "🔔";
+}
+.glyphicon-bookmark:before {
+  content: "🔖";
+}
+.glyphicon-briefcase:before {
+  content: "💼";
+}
+.glyphicon-calendar:before {
+  content: "📅";
+}
+.glyphicon-camera:before {
+  content: "📷";
+}
+.glyphicon-fire:before {
+  content: "🔥";
+}
+.glyphicon-lock:before {
+  content: "🔒";
+}
+.glyphicon-paperclip:before {
+  content: "📎";
+}
+.glyphicon-pushpin:before {
+  content: "📌";
+}
+.glyphicon-wrench:before {
+  content: "🔧";
+}
 .no-margin {
     margin: 2px!important;
 }
@@ -65,17 +97,38 @@
 }
 
 .menu {
+  padding-top: 15px;
   height: 100%;
-  width: 16.6667%;
+  /*width: 16.6667%;*/
 }
 
 #col-menu {
   height: 100%;
-  background-color: #444444;
+  background-color: #bbbbbb;
   position: fixed;
+  padding : 0px 0px;
 }
 
 #navbar-top {
   margin-bottom: 0px;
   background-color: #444444;
+}
+
+.menu-lien {
+  display: block;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  font-family: 'Open Sans';
+  font-weight: normal;
+  font-style: normal;
+  font-size : 18.2px;
+}
+
+.menu-lien:hover {
+  text-decoration: none;
+  background-color: #dddddd;
+}
+
+.enfant {
+  padding-left: 10%;
 }
