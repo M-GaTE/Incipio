@@ -34,7 +34,56 @@
     margin: 2px!important;
 }
 
+body {
+  overflow-x: hidden;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
 
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.contentMain {
+  width: 95%;
+  margin-left: auto;
+  margin-right: 40px;
+  margin-bottom: 100px;
+  top:51px;
+  position: absolute;
+}
 .rot-neg-90 {
     -moz-transform:rotate(-270deg); 
     -moz-transform-origin: bottom left;
@@ -112,11 +161,14 @@
 #navbar-top {
   margin-bottom: 0px;
   background-color: #444444;
+  position: fixed;
+  width: 100%;
 }
 
 .menu-lien {
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
   padding-left: 10px;
   font-family: 'Open Sans';
   font-weight: normal;
@@ -131,4 +183,41 @@
 
 .enfant {
   padding-left: 10%;
+  font-size: 12px;
+  padding-bottom: 2px;
+}
+
+.divider {
+  padding-bottom: 1px;
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.titre {
+  text-align: center;
+  color: red;
+}
+
+.grand {
+  font-size: 14px;
+}
+
+.gauche {
+  float: left;
+}
+
+.droite {
+  float: right;
+}
+
+.floatContainer {
+  display: block;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  height: 15px;
+}
+
+.actuel {
+  background-color:#ddd;
 }

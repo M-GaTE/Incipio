@@ -32,56 +32,8 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('css/select2.css')}}"/>
         <link rel="stylesheet" href="{{ asset('css/mgate.css')}}"/>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-
-    /* Sticky footer styles
-    -------------------------------------------------- */
-    html {
-      position: relative;
-      min-height: 100%;
-    }
-    body {
-      /* Margin bottom by footer height */
-      margin-bottom: 60px;
-    }
-    #footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      /* Set the fixed height of the footer here */
-      height: 60px;
-      background-color: #f5f5f5;
-    }
-
-    /* Custom page CSS
-    -------------------------------------------------- */
-    /* Not required for template or sticky footer method. */
-
-    body > .container {
-      padding: 60px 15px 0;
-    }
-    .container .text-muted {
-      margin: 20px 0;
-    }
-
-    #footer > .container {
-      padding-right: 15px;
-      padding-left: 15px;
-    }
-
-    code {
-      font-size: 80%;
-    }
-    
-    .contentMain {
-        width: 95%;
-        margin-left: auto;
-        margin-right: 40px;
-        margin-bottom: 100px;
-    }
-
-        </style>
 {% endblock %}
 
 {% block head %}
@@ -112,7 +64,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
             {% block menu %}
 				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 					{# L'utilisateur est connecté ! #}
-					{% render url('mgate_dashboard_navbar') %}
+					{% render(controller('mgateDashboardBundle:Default:navbar')) %}
 					{% else %}
 					{# L'utilisateur n'est pas connecté ! #}
 				{% endif %}
@@ -120,12 +72,16 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
     {% endblock %}
 
     {% block content_main %} 
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div class="col-md-10 col-md-offset-2">
+        {% endif %}
             <div id="content" class="contentMain">
             {% block content %}
             {% endblock %}
             </div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         </div>
+        {% endif %}
     {% endblock %}
 
     {% block footer_main %}

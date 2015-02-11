@@ -35,7 +35,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 	    <a class="menu-lien enfant" data-parent="formations" href="{{ path('mgate_formations_lister') }}">Voir les formations</a>
 	    {% if is_granted('ROLE_CA') %}
 		    <a class="divider enfant" data-parent="formations"></a>
-		    <a class="menu-lien enfant" data-parent="formations">Administration</a>
+		    <span class="menu-lien enfant titre" data-parent="formations">Administration</span>
 		    <a class="menu-lien enfant" data-parent="formations" href="{{ path('mgate_formations_index_admin') }}">Gérer les formations</a>
 		    <a class="menu-lien enfant" data-parent="formations" href="{{ path('mgate_formation_ajouter') }}">Ajouter une formation</a>
 		    <a class="menu-lien enfant" data-parent="formations" href="{{ path('mgate_formation_participation') }}">Voir les participants</a>
@@ -49,17 +49,17 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 	    <a class="menu-lien enfant" data-parent="suiviEtudes" href="{{ path('mgateSuivi_etude_ajouter') }}">Créer une étude</a>
 	    {% if etudesSuiveur | length %}
 		    <a class="divider enfant" data-parent="suiviEtudes"></a>
-		    <a class="menu-lien enfant" data-parent="suiviEtudes">Mes études :</a>
+		    <span class="menu-lien enfant titre" data-parent="suiviEtudes">Mes études :</span>
 		    {% for etude in etudesSuiveur %}
 	    		<a class="menu-lien enfant" data-parent="suiviEtudes" href="{{ path('mgateSuivi_etude_voir', {'numero': etude.numero}) }}">{{ etude.reference }}</a>
 	    	{% endfor %}
 	    {% endif %}
 	    <a class="divider enfant" data-parent="suiviEtudes"></a>
-	    <a class="menu-lien enfant" data-parent="suiviEtudes">Qualité</a>
+	    <span class="menu-lien enfant titre" data-parent="suiviEtudes">Qualité</span>
 	    <a class="menu-lien enfant" data-parent="suiviEtudes" href="{{ path('mgateSuivi_etude_suiviQualite') }}">Suivi des problèmes</a>
 	    {% if is_granted('ROLE_CA') %}
 	    	<a class="divider enfant" data-parent="suiviEtudes"></a>
-		    <a class="menu-lien enfant" data-parent="suiviEtudes">Administration</a>
+		    <span class="menu-lien enfant titre" data-parent="suiviEtudes">Administration</span>
 		    <a class="menu-lien enfant" data-parent="suiviEtudes" href="{{ path('mgateSuivi_clientcontact_index') }}">Contacts Client</a>
 		    <a class="menu-lien enfant" data-parent="suiviEtudes" href="{{ path('mgateSuivi_vu_ca') }}">Vu CA</a>
 	    {% endif %}
@@ -68,41 +68,53 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 	<!-- TRESORERIE-->
 	{% if is_granted('ROLE_CA') %}
     <a class="menu-lien" href="#" data-target="tresorerie"><span class="glyphicon glyphicon-euro"></span> Trésorerie</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">Factures :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Facture_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Facture_ajouter') }}">Ajouter</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">BVs :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_BV_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_BV_ajouter') }}">Ajouter</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">NFs :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_NoteDeFrais_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_NoteDeFrais_ajouter') }}">Ajouter</a>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">Factures :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+    	<a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_Facture_index') }}">Lister</a>
+    	<a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_Facture_ajouter') }}">Ajouter</a>
+    </div>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">BVs :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+	    <a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_BV_index') }}">Lister</a>
+	    <a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_BV_ajouter') }}">Ajouter</a>
+    </div>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">NFs :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+	    <a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_NoteDeFrais_index') }}">Lister</a>
+	    <a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_NoteDeFrais_ajouter') }}">Ajouter</a>
+    </div>
     <a class="divider enfant" data-parent="tresorerie"></a>
-    <a class="menu-lien enfant" data-parent="tresorerie">Tableaux de Suivi :</a>
+    <span class="menu-lien enfant grand titre" data-parent="tresorerie">Tableaux de Suivi :</span>
     <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Declaratif_TVA') }}">Déclaratif TVA</a>
     <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Declaratif_BRC') }}">Bordereau Récapitulatif des Cotisations</a>
     <a class="divider enfant" data-parent="tresorerie"></a>
-    <a class="menu-lien enfant" data-parent="tresorerie">Administration :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">Comptes :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Compte_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_Compte_ajouter') }}">Ajouter</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">B. URSSAF :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_BaseURSSAF_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_BaseURSSAF_ajouter') }}">Ajouter</a>
-    <a class="menu-lien enfant" data-parent="tresorerie">Charges :</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_CotisationURSSAF_index') }}">Lister</a>
-    <a class="menu-lien enfant" data-parent="tresorerie" href="{{ path('mgateTreso_CotisationURSSAF_ajouter') }}">Ajouter</a>
+    <span class="menu-lien enfant grand titre" data-parent="tresorerie">Administration :</span>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">Comptes :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+	    <a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_Compte_index') }}">Lister</a>
+	    <a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_Compte_ajouter') }}">Ajouter</a>
+    </div>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">B. URSSAF :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+	    <a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_BaseURSSAF_index') }}">Lister</a>
+	    <a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_BaseURSSAF_ajouter') }}">Ajouter</a>
+    </div>
+    <span class="menu-lien enfant titre" data-parent="tresorerie">Charges :</span>
+    <div class="floatContainer" data-parent="tresorerie">
+	    <a class="menu-lien enfant gauche" data-parent="tresorerie" href="{{ path('mgateTreso_CotisationURSSAF_index') }}">Lister</a>
+	    <a class="menu-lien enfant droite" data-parent="tresorerie" href="{{ path('mgateTreso_CotisationURSSAF_ajouter') }}">Ajouter</a>
+    </div>
 	{% endif %}
 
 	<!-- DEVELOPPEMENT COMMERCIAL -->
 	{% if is_granted('ROLE_SUIVEUR') %}
     <a class="menu-lien" href="#" data-target="prospection"><span class="glyphicon glyphicon-earphone"></span> Prospection</a>
-	    <a class="menu-lien enfant" data-parent="prospection">Prospect/Client</a>
+	    <span class="menu-lien enfant titre" data-parent="prospection">Prospect/Client</span>
 	    <a class="menu-lien enfant" data-parent="prospection" href="{{ path('mgatePersonne_prospect_homepage') }}">Voir les prospects</a>
 	    <a class="menu-lien enfant" data-parent="prospection" href="{{ path('mgatePersonne_prospect_ajouter') }}">Ajouter un prospect</a>
 	    {% if is_granted('ROLE_CA') %}
 		    <a class="divider enfant" data-parent="prospection"></a>
-		    <a class="menu-lien enfant" data-parent="prospection">Annuaire</a>
+		    <span class="menu-lien enfant titre" data-parent="prospection">Annuaire</span>
 		    <a class="menu-lien enfant" data-parent="prospection" href="{ path('mgatePersonne_annuaire') }}">Annuaire global</a>
 		    <a class="menu-lien enfant" data-parent="prospection" href="{ path('mgatePersonne_listeDiffusion') }}">Liste de diffusion</a>
 		{% endif %}
@@ -120,14 +132,14 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgate_publi_documenttype_index') }}">Gestion des Documents</a>
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgate_publi_documenttype_upload') }}">Ajouter un Doctype</a>
     <a class="divider enfant" data-parent="administration"></a>
-    <a class="menu-lien enfant" data-parent="administration">Postes</a>
+    <span class="menu-lien enfant titre" data-parent="administration">Postes</span>
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgatePersonne_poste_homepage') }}">Liste des postes</a>
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgatePersonne_poste_ajouter') }}">Ajouter un poste</a>
     <a class="divider enfant" data-parent="administration"></a>
-    <a class="menu-lien enfant" data-parent="administration">Comptes d'Utilisateurs</a>
+    <span class="menu-lien enfant titre" data-parent="administration">Comptes d'Utilisateurs</span>
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgate_user_lister') }}">Lister / Modifier</a>
     <a class="divider enfant" data-parent="administration"></a>
-    <a class="menu-lien enfant" data-parent="administration">Autres</a>
+    <span class="menu-lien enfant titre" data-parent="administration">Autres</span>
     <a class="menu-lien enfant" data-parent="administration" href="{{ path('mgateSuivi_domaine_index') }}">Domaines de compétence</a>
     {% endif %}
 </div>
