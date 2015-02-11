@@ -48,6 +48,7 @@ class EtudeManager extends \Twig_Extension {
             'getWarnings' => new \Twig_Function_Method($this, 'getWarnings'),
             'getInfos' => new \Twig_Function_Method($this, 'getInfos'),
             'getEtatDoc' => new \Twig_Function_Method($this, 'getEtatDoc'),
+            'getNbrJEH' => new \Twig_Function_Method($this, 'getNbrJEH'),
             'confidentielRefus' => new \Twig_Function_Method($this, 'confidentielRefus'),
         );
     }
@@ -579,6 +580,11 @@ class EtudeManager extends \Twig_Extension {
             $ok =  0;
         }
         return $ok;
+    }
+
+    public function getNbrJEH($etude)
+    {
+        return $etude->getNbrJEH();
     }
 
     
