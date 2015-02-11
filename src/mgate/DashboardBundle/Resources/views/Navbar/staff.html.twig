@@ -19,7 +19,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<div class="menu-groupe-lien" id="sidebar">
+<div class="menu-groupe-lien" id="sidebar" data-current="{{route}}">
 	<!-- GESTION ASSOCIATIVE -->
 	{% if is_granted('ROLE_SUIVEUR') %}
 	    <a class="menu-lien" href="#" data-target="gestAsso"><span class="glyphicon glyphicon-user"></span> Gestion Associative</a>
@@ -115,8 +115,8 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 	    {% if is_granted('ROLE_CA') %}
 		    <a class="divider enfant" data-parent="prospection"></a>
 		    <span class="menu-lien enfant titre" data-parent="prospection">Annuaire</span>
-		    <a class="menu-lien enfant" data-parent="prospection" href="{ path('mgatePersonne_annuaire') }}">Annuaire global</a>
-		    <a class="menu-lien enfant" data-parent="prospection" href="{ path('mgatePersonne_listeDiffusion') }}">Liste de diffusion</a>
+		    <a class="menu-lien enfant" data-parent="prospection" href="{{ path('mgatePersonne_annuaire') }}">Annuaire global</a>
+		    <a class="menu-lien enfant" data-parent="prospection" href="{{ path('mgatePersonne_listeDiffusion') }}">Liste de diffusion</a>
 		{% endif %}
 	{% endif %}
 

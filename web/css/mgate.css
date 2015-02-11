@@ -83,6 +83,7 @@ code {
   margin-bottom: 100px;
   top:51px;
   position: absolute;
+  padding-bottom: 100px;
 }
 .rot-neg-90 {
     -moz-transform:rotate(-270deg); 
@@ -148,6 +149,9 @@ code {
 .menu {
   padding-top: 15px;
   height: 100%;
+  top: 40px;
+  position: absolute;
+  width: 100%;
   /*width: 16.6667%;*/
 }
 
@@ -160,9 +164,17 @@ code {
 
 #navbar-top {
   margin-bottom: 0px;
-  background-color: #444444;
+  background-color: rgba(0, 166, 194, 1);
   position: fixed;
   width: 100%;
+}
+
+.navbar-brand,.navbar-default {
+  color : rgba(212, 212, 212, 1);
+}
+
+#footer {
+  background-color: #B0C6DD;
 }
 
 .menu-lien {
@@ -220,4 +232,8 @@ code {
 
 .actuel {
   background-color:#ddd;
+}
+
+#nomJunior {
+  color : rgba(212, 212, 212, 1);
 }

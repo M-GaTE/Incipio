@@ -64,7 +64,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
             {% block menu %}
 				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 					{# L'utilisateur est connecté ! #}
-					{% render(controller('mgateDashboardBundle:Default:navbar')) %}
+					{% render(controller('mgateDashboardBundle:Default:navbar',{'route' : app.request.get('_route') })) %}
 					{% else %}
 					{# L'utilisateur n'est pas connecté ! #}
 				{% endif %}

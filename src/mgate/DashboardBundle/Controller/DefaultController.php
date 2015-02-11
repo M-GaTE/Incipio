@@ -33,7 +33,7 @@ class DefaultController extends Controller
     }
 
 
-    public function navbarAction()
+    public function navbarAction($route = "")
     {
         $em = $this->getDoctrine()->getManager();
           
@@ -48,7 +48,7 @@ class DefaultController extends Controller
              array_push($etudesSuiveur, $etude);
         }
         
-        return $this->render('mgateDashboardBundle:Navbar:layout.html.twig', array('etudesSuiveur' => $etudesSuiveur));
+        return $this->render('mgateDashboardBundle:Navbar:layout.html.twig', array('etudesSuiveur' => $etudesSuiveur, "route" => $route,true));
     }
 
 

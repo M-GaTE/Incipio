@@ -28,13 +28,13 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('mgate_dashboard_homepage') }}">My {{ junior['abbr'] }}</a>
+        <a class="navbar-brand" href="{{ path('mgate_dashboard_homepage') }}" id="nomJunior">My {{ junior['abbr'] }}</a>
     </div>
     {% include "mgateDashboardBundle:Navbar:compte.html.twig" %}
 </nav>
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="col-md-2" id="col-menu">
     <div class="menu">
-        {% include "mgateDashboardBundle:Navbar:staff.html.twig" with {'etudesSuiveur' : etudesSuiveur }%}
+        {% include "mgateDashboardBundle:Navbar:staff.html.twig" with {'etudesSuiveur' : etudesSuiveur, 'route' : route}%}
     </div>
 </div>
