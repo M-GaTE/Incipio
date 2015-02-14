@@ -61,7 +61,28 @@ $(document).ready(function(){
 		'mgate_user_lister' : 'administration',
 		'mgateSuivi_domaine_index' : 'administration'
 	};
+	showCurrent();
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $(function() {
+        $(document).on("click", ".bootbox-confirm", function(e) {
+            e.preventDefault();
+            var _this = $(this);
+            return bootbox.confirm($(this).data('content'), function(result) {
+                if(result) _this.closest('form').submit();
+            });
+        });
+    });
+    $(".loading").hide();
+});
 
+var pages;
+var current;
+
+
+function showCurrent(){
 	if(typeof(pages[current]) != "undefined"){
 		$('#sidebar a[data-target="'+pages[current]+'"]').addClass("actuel");
 		$('#sidebar .enfant,div.floatContainer').each(function(index,element){
@@ -71,7 +92,4 @@ $(document).ready(function(){
 				$(element).hide("fast");
 		});
 	}
-});
-
-var pages;
-var current;
+};

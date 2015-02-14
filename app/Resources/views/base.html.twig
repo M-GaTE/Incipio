@@ -79,11 +79,13 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
         <div id="wrapper">
 
 {% block content_row %}
+{% if app.user %}
         <div class="sidebar-nav" id="sidebar-wrapper">
             <div class="menu">
                 {{ include('mgateDashboardBundle:Navbar:staff.html.twig', {'etudesSuiveur' : getEtudes(app.user)}) }} {# Inclusion du menu #}
             </div>
         </div>
+{% endif %}
         <div class="container-fluid">
             <div id="page-content-wrapper">
                 <div class="row">
@@ -100,29 +102,13 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 {% block footer %}
                     <div id="footer" class="hidden-print">
                         <div class="container">
-                            <p style="text-align: center">V 0.2 <i>© Incipio 2015</i></p>
+                            <p style="text-align: center">V 0.2 <i>© <a href="http://incipio.fr">Incipio</a> 2015</i></p>
                         </div>
                     </div>
 {% endblock footer %}
             </footer>
         </div>
         </div>
-        <script>
-            $("#menu-toggle").click(function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-            $(function() {
-                $(document).on("click", ".bootbox-confirm", function(e) {
-                    e.preventDefault();
-                    var _this = $(this);
-                    return bootbox.confirm($(this).data('content'), function(result) {
-                        if(result) _this.closest('form').submit();
-                    });
-                });
-            });
-            $(".loading").hide();
-        </script>
         <!-- GOOGLE ANALYTICS -->
         <script type="text/javascript">
 

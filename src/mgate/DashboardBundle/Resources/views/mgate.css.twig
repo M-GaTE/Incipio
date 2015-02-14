@@ -18,10 +18,6 @@ code {
   font-size: 80%;
 }
 
-a {
-  color : {{ link }};
-}
-
 .contentMain {
   width: 95%;
   margin-left: auto;
@@ -111,6 +107,9 @@ a {
 .navbar-header {
   padding-left: 15px;
 }
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+  background-color : {{ colorTopVeryLight }};
+}
 
 #footer {
   position: fixed;
@@ -119,7 +118,11 @@ a {
   height: 30px;
   z-index: 1010;
   left: 0px;
+{% if app.user %}
   background-color: {{ colorTopLight }};
+{% else %}
+  background-color: #f5f5f5;
+{% endif %}
 }
 
 #footer > .container {
@@ -132,14 +135,31 @@ a {
 }
 
 #footer p {
+{% if app.user %}
   color: {{ footer }};
+{% else %}
+  color: #888;
+{% endif %}
+}
+
+#footer a {
+{% if app.user %}
+  color: {{ footer }};
+{% else %}
+  color: #888;
+{% endif %}
 }
 
 .menu {
   padding-top: 15px;
   padding-left: 10px;
+  padding-bottom: 80px;
   position: absolute;
   width: 100%;
+}
+
+.menu a {
+  color : {{ link }};
 }
 
 #col-menu {
@@ -179,20 +199,29 @@ a {
 }
 
 .titre {
-  text-align: center;
-  color: red;
+  color: black;
+  margin-left: -10px;
+  text-decoration: underline;
+}
+
+.titre:hover {
+  background-color: inherit;
+  text-decoration: underline;
 }
 
 .grand {
   font-size: 14px;
+  margin-left: -15px;
 }
 
 .gauche {
   float: left;
+  width: 50%;
 }
 
 .droite {
   float: right;
+  width: 50%;
 }
 
 .floatContainer {
@@ -214,7 +243,7 @@ a {
 
 .nomJunior {
   color : white;
-  position: absolute;
+  position: fixed;
   z-index: 1010;
   background-color: {{ colorTop }};
   width: 250px;
@@ -236,21 +265,26 @@ a {
   text-decoration: none;
 }
 
+#mon_compte {
+  color: {{ sidebarVeryLight }};
+}
 #wrapper {
-padding-left: 0;
--webkit-transition: all 0.5s ease;
--moz-transition: all 0.5s ease;
--o-transition: all 0.5s ease;
-transition: all 0.5s ease;
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 #wrapper.toggled {
-padding-left: 250px;
+  padding-left: 250px;
 }
 
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
+{% if app.user %}
   left: 250px;
+{% endif %}
   width: 0;
   top: 50px;
   height: 100%;
@@ -291,9 +325,11 @@ padding-left: 250px;
   background: none;
 }
 @media(min-width:768px) {
+{% if app.user %}
   #wrapper {
     padding-left: 250px;
   }
+{% endif %}
   #wrapper.toggled {
     padding-left: 0;
   }
@@ -311,6 +347,12 @@ padding-left: 250px;
     position: relative;
     margin-right: 0;
   }
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0px auto;
 }
 
 </style>

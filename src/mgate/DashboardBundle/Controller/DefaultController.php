@@ -54,6 +54,7 @@ class DefaultController extends Controller
     public function mgateCSSAction(){
         $navbarTop = $this->container->getParameter('color_top');
         $navbarTopLight = $this->sumColor($navbarTop,"#FFFFFF",0.2);
+        $colorTopVeryLight = $this->sumColor($navbarTop,"#FFFFFF",0.4);
         $footer = $this->sumColor($navbarTop,"#FFFFFF",0.8);
         $sidebar = $this->sumColor($navbarTop,"#FFFFFF",0.8);
         $link = $this->sumColor($navbarTop,"#000000",0.8);
@@ -61,6 +62,7 @@ class DefaultController extends Controller
         return $this->render('mgateDashboardBundle::mgate.css.twig',array(
             'colorTop' => $navbarTop,
             'colorTopLight' => $navbarTopLight,
+            'colorTopVeryLight' => $colorTopVeryLight,
             'footer' => $footer,
             'sidebar' => $sidebar,
             'link' => $link,
