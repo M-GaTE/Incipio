@@ -51,5 +51,29 @@ class DefaultController extends Controller
         return $this->render('mgateDashboardBundle:Navbar:layout.html.twig', array('etudesSuiveur' => $etudesSuiveur, "route" => $route,true));
     }
 
+    public function mgateCSSAction(){
+        $navbarTop = $this->container->getParameter('color_top');
+        $navbarTopLight = $this->sumColor($navbarTop,"#FFFFFF",0.2);
+        $footer = $this->sumColor($navbarTop,"#FFFFFF",0.8);
+        $sidebar = $this->sumColor($navbarTop,"#FFFFFF",0.8);
+        $link = $this->sumColor($navbarTop,"#000000",0.8);
+        $sidebarVeryLight = $this->sumColor($navbarTop,"#FFFFFF",0.9);
+        return $this->render('mgateDashboardBundle::mgate.css.twig',array(
+            'colorTop' => $navbarTop,
+            'colorTopLight' => $navbarTopLight,
+            'footer' => $footer,
+            'sidebar' => $sidebar,
+            'link' => $link,
+            'sidebarVeryLight' => $sidebarVeryLight,
+            ));
+    }
 
+    protected function sumColor($color1,$color2,$ratio){
+        list($r1,$g1,$b1) = str_split(substr($color1,1),2);
+        list($r2,$g2,$b2) = str_split(substr($color2,1),2);
+        $r = hexdec($r1)*(1-$ratio) + hexdec($r2)*$ratio;
+        $g = hexdec($g1)*(1-$ratio) + hexdec($g2)*$ratio;
+        $b = hexdec($b1)*(1-$ratio) + hexdec($b2)*$ratio;
+        return "#".str_pad(dechex($r),2,"0",STR_PAD_LEFT).str_pad(dechex($g),2,"0",STR_PAD_LEFT).str_pad(dechex($b),2,"0",STR_PAD_LEFT);
+    }
 }

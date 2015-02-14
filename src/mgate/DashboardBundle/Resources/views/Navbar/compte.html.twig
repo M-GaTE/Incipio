@@ -1,4 +1,3 @@
-        
 {#
 This file is part of Incipio.
 
@@ -18,20 +17,19 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/licenses/>.
 #}
-
-<ul class="nav navbar-nav navbar-right">   
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-        	<li class="dropdown-header">Manuel d'utilisation</li>
-       	    <li class="divider"></li>
-       	    <li><a href="http://wiki.incipio.fr/"><span class="glyphicon glyphicon-tags"></span> Guide utilisateur</a></li>
-            <li class="dropdown-header">{{ app.user.username }}</li>
-            <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-pencil"></span> Modifier mon pseudo</a></li>
-            <li><a href="{{ path('fos_user_change_password') }}"><span class="glyphicon glyphicon-pencil"></span> Modifier mon mot de passe</a></li>
-            <li class="divider"></li>
-            <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-remove-sign"></span> Déconnexion</a></li>
-        </ul>
-    </li>
-	<li><div style="min-height: 32px; min-width: 32px;"><div class="loading"><img src="{{ asset('img/ajax-loader.gif') }}" /></div></div></li>
-</ul>
+                    <ul class="nav navbar-nav navbar-right">   
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="visible-xs-inline" style="padding-left:20px;"></span><span class="glyphicon glyphicon-cog"></span><span class="visible-xs-inline"> Paramètres</span> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            	<li class="dropdown-header">Manuel d'utilisation</li>
+                           	    <li class="divider"></li>
+                           	    <li><a href="http://wiki.incipio.fr/"><span class="glyphicon glyphicon-tags"></span> Guide utilisateur</a></li>
+                                <li class="dropdown-header">{{ app.user.username }}</li>
+                                <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-pencil"></span> Modifier mon pseudo</a></li>
+                                <li><a href="{{ path('fos_user_change_password') }}"><span class="glyphicon glyphicon-pencil"></span> Modifier mon mot de passe</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-remove-sign"></span> Déconnexion</a></li>
+                            </ul>
+                        </li>
+                    	<li class="hidden-xs"><div style="min-height: 32px; min-width: 32px;"><div class="loading"><img src="{{ asset('img/ajax-loader.gif') }}" /></div></div></li>
+                    </ul>

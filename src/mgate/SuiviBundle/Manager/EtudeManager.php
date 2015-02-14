@@ -50,6 +50,7 @@ class EtudeManager extends \Twig_Extension {
             'getEtatDoc' => new \Twig_Function_Method($this, 'getEtatDoc'),
             'getNbrJEH' => new \Twig_Function_Method($this, 'getNbrJEH'),
             'confidentielRefus' => new \Twig_Function_Method($this, 'confidentielRefus'),
+            'getEtudes' => new \Twig_Function_Method($this, 'getEtudes'),
         );
     }
     
@@ -585,6 +586,17 @@ class EtudeManager extends \Twig_Extension {
     public function getNbrJEH($etude)
     {
         return $etude->getNbrJEH();
+    }
+
+    public function getEtudes($user){
+        $etudesSuiveur = array();
+        foreach($this->em->getRepository('mgateSuiviBundle:Etude')->findBy(array('suiveur' => $user), array('mandat'=> 'DESC', 'id'=> 'DESC')) as $etude)
+        {
+            $stateID = $etude->getStateID();
+            if( $stateID <= 2 )
+                array_push($etudesSuiveur, $etude);
+        }
+        return $etudesSuiveur;
     }
 
     
