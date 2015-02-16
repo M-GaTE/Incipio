@@ -28,8 +28,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     public function indexAction()
-    {        
-        return $this->render('mgateDashboardBundle:Default:index.html.twig');
+    {
+        $em = $this->getDoctrine()->getManager();
+          
+        $user = $this->container->get('security.context')->getToken()->getUser()->getPersonne();
+        
+        //Etudes Suiveur
+        $etudesSuiveur = array();
+        foreach($em->getRepository('mgateSuiviBundle:Etude')->findBy(array('suiveur' => $user), array('mandat'=> 'DESC', 'id'=> 'DESC')) as $etude)
+        {
+            $stateID = $etude->getStateID();
+            if( $stateID <= 2 )
+             array_push($etudesSuiveur, $etude);
+        }
+
+        $etudesEnCours = $em->getRepository('mgateSuiviBundle:Etude')->findBy(array('stateID' => 2), array('mandat' => 'DESC', 'num' => 'DESC'));
+        return $this->render('mgateDashboardBundle:Default:index.html.twig', array("etudesEnCours" => $etudesEnCours,'etudesSuiveur' => $etudesSuiveur));
     }
 
 
