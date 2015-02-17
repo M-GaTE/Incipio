@@ -51,8 +51,10 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 {% endblock head_bottom %}
     </head>
 {% endblock head %}
-    <body data-spy="scroll">
+    <body>
 {% block body %}
+{% block javascript_quick %}
+{% endblock %} 
 {% block headbar %}
 {% if app.user %}
         <div class="nomJunior"><a href="{{ path('mgate_dashboard_homepage') }}">My {{ junior['abbr'] }}</a><a href="#menu-toggle" class="glyphicon glyphicon-menu-hamburger" id="menu-toggle"></a></div>
@@ -109,6 +111,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
             </footer>
         </div>
         </div>
+{% block javascript %}
         <!-- GOOGLE ANALYTICS -->
         <script type="text/javascript">
 
@@ -123,6 +126,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
         })();
 
         </script>
+{% endblock %}
 {% endblock container %}
 {% endblock body %}
     </body>
