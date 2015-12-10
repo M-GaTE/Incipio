@@ -22,3 +22,5 @@ composer.phar
 composer.lock
 nbproject/*
 src/mgate/UserBundle/DataFixtures/ORM/LoadAdminData.php
+/vendor/
+/bin/

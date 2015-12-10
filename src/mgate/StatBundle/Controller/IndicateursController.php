@@ -29,6 +29,7 @@ use Ob\HighchartsBundle\Highcharts\Highchart;
 use mgate\SuiviBundle\Entity\EtudeRepository;
 use mgate\PersonneBundle\Entity\MembreRepository;
 use mgate\PersonneBundle\Entity\MandatRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 // A externaliser dans les parametres
 define("STATE_ID_EN_COURS_X", 2);
@@ -737,90 +738,82 @@ class IndicateursController extends Controller {
             ));
     }
     
+    
     /**
      * @Secure(roles="ROLE_CA")
      */
     private function getNombreDePresentFormationsTimed() {
-        $em = $this->getDoctrine()->getManager();
-        $formationsParMandat = $em->getRepository('mgateFormationBundle:Formation')->findAllByMandat();
-
-        $maxMandat = max(array_keys($formationsParMandat));
-        $mandats = array();
-
-        foreach ($formationsParMandat as $mandat => $formations) {
-            foreach($formations as $formation){
-                if($formation->getDateDebut()){
-                    $interval = new \DateInterval('P' . ($maxMandat - $mandat) . 'Y');
-                    $dateDecale = clone $formation->getDateDebut();
-                    $dateDecale->add($interval);
-                    $mandats[$mandat][] = array(
-                        "x" => $dateDecale->getTimestamp() * 1000,
-                        "y" => count($formation->getMembresPresents()), "name" => $formation->getTitre(),
-                        'date' => $dateDecale->format('d/m/Y'),
-                    );   
-                }
-            }
-        }
-        
-        $series = array();
-        foreach ($mandats as $mandat => $data) {
-            $series[] = array("name" => "Mandat " . $mandat, "data" => $data);
-        }
-
-        /*         * ***********************
-         * CHART
-         */
-        $ob = new Highchart();
-        $ob->chart->renderTo(__FUNCTION__);
-        // OTHERS
-        $ob->global->useUTC(false);
-
-        /*         * ***********************
-         * DATAS
-         */
-        $ob->series($series);
-        $ob->xAxis->type('datetime');
-        $ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
-
-        /*         * ***********************
-         * STYLE
-         */
-        $ob->yAxis->min(0);
-        $ob->yAxis->allowDecimals(false);
-        $style = array('color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px');
-        $ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
-        $ob->xAxis->labels(array('style' => $style));
-        $ob->yAxis->labels(array('style' => $style));
-        $ob->credits->enabled(false);
-        $ob->legend->enabled(false);
-
-        /*         * ***********************
-         * TEXTS AND LABELS
-         */
-        $ob->title->text('Nombre de prÃ©sents aux formations');
-        $ob->yAxis->title(array('text' => "Nombre de prÃ©sents", 'style' => $style));
-        $ob->xAxis->title(array('text' => "Date", 'style' => $style));
-        $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} prÃ©sent le {point.date}<br />{point.name}');
-        $ob->legend->layout('vertical');
-        $ob->legend->y(40);
-        $ob->legend->x(90);
-        $ob->legend->verticalAlign('top');
-        $ob->legend->reversed(true);
-        $ob->legend->align('left');
-        $ob->legend->backgroundColor('#FFFFFF');
-        $ob->legend->itemStyle($style);
-        $ob->plotOptions->series(array('lineWidth' => 5, 'marker' => array('radius' => 8)));
-
-        /*
-         *
-         * *********************** */
-
-        return $this->render('mgateStatBundle:Indicateurs:Indicateur.html.twig', array(
-                'chart' => $ob
-            ));
-    }
+    	$em = $this->getDoctrine()->getManager();
+    	$formationsParMandat = $em->getRepository('mgateFormationBundle:Formation')->findAllByMandat();
+    	$maxMandat = max(array_keys($formationsParMandat));
+    	$mandats = array();
+    	foreach ($formationsParMandat as $mandat => $formations) {
+    		foreach($formations as $formation){
+    			if($formation->getDateDebut()){
+    				$interval = new \DateInterval('P' . ($maxMandat - $mandat) . 'Y');
+    				$dateDecale = clone $formation->getDateDebut();
+    				$dateDecale->add($interval);
+    				$mandats[$mandat][] = array(
+    						"x" => $dateDecale->getTimestamp() * 1000,
+    						"y" => count($formation->getMembresPresents()), "name" => $formation->getTitre(),
+    						'date' => $dateDecale->format('d/m/Y'),
+    				);
+    			}
+    		}
+    	}
     
+    	$series = array();
+    	foreach ($mandats as $mandat => $data) {
+    		$series[] = array("name" => "Mandat " . $mandat, "data" => $data);
+    	}
+    	/*         * ***********************
+    	 * CHART
+    	 */
+    	$ob = new Highchart();
+    	$ob->chart->renderTo(__FUNCTION__);
+    	// OTHERS
+    	//$ob->global->useUTC(false);
+    	/*         * ***********************
+    	 * DATAS
+    	 */
+    	$ob->series($series);
+    	$ob->xAxis->type('datetime');
+    	$ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
+    	/*         * ***********************
+    	 * STYLE
+    	 */
+    	$ob->yAxis->min(0);
+    	$ob->yAxis->allowDecimals(false);
+    	$style = array('color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px');
+    	$ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
+    	$ob->xAxis->labels(array('style' => $style));
+    	$ob->yAxis->labels(array('style' => $style));
+    	$ob->credits->enabled(false);
+    	$ob->legend->enabled(false);
+    	/*         * ***********************
+    	 * TEXTS AND LABELS
+    	 */
+    	$ob->title->text('Nombre de présents aux formations');
+    	$ob->yAxis->title(array('text' => "Nombre de présents", 'style' => $style));
+    	$ob->xAxis->title(array('text' => "Date", 'style' => $style));
+    	$ob->tooltip->headerFormat('<b>{series.name}</b><br />');
+    	$ob->tooltip->pointFormat('{point.y} présent le {point.date}<br />{point.name}');
+    	$ob->legend->layout('vertical');
+    	$ob->legend->y(40);
+    	$ob->legend->x(90);
+    	$ob->legend->verticalAlign('top');
+    	$ob->legend->reversed(true);
+    	$ob->legend->align('left');
+    	$ob->legend->backgroundColor('#FFFFFF');
+    	$ob->legend->itemStyle($style);
+    	$ob->plotOptions->series(array('lineWidth' => 5, 'marker' => array('radius' => 8)));
+    	/*
+    	 *
+    	 * *********************** */
+    	return $this->render('mgateStatBundle:Indicateurs:Indicateur.html.twig', array(
+    			'chart' => $ob
+    	));
+    }
     
     /**
      * @Secure(roles="ROLE_CA")
