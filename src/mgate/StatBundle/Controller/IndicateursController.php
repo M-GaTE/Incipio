@@ -766,53 +766,63 @@ class IndicateursController extends Controller {
     	foreach ($mandats as $mandat => $data) {
     		$series[] = array("name" => "Mandat " . $mandat, "data" => $data);
     	}
-    	/*         * ***********************
-    	 * CHART
-    	 */
-    	$ob = new Highchart();
-    	$ob->chart->renderTo(__FUNCTION__);
-    	// OTHERS
-    	//$ob->global->useUTC(false);
-    	/*         * ***********************
-    	 * DATAS
-    	 */
-    	$ob->series($series);
-    	$ob->xAxis->type('datetime');
-    	$ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
-    	/*         * ***********************
-    	 * STYLE
-    	 */
-    	$ob->yAxis->min(0);
-    	$ob->yAxis->allowDecimals(false);
+    	
+    	
     	$style = array('color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px');
-    	$ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
+    	
+    	$ob = new Highchart();
+    	$ob->global->useUTC(false);
+    	
+    	$ob->chart->renderTo(__FUNCTION__);  // The #id of the div where to render the chart
     	$ob->xAxis->labels(array('style' => $style));
     	$ob->yAxis->labels(array('style' => $style));
-    	$ob->credits->enabled(false);
-    	$ob->legend->enabled(false);
-    	/*         * ***********************
-    	 * TEXTS AND LABELS
-    	 */
-    	$ob->title->text('Nombre de pr�sents aux formations');
-    	$ob->yAxis->title(array('text' => "Nombre de pr�sents", 'style' => $style));
+    	$ob->title->text('Nombre de presents aux formation');
+    	$ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
     	$ob->xAxis->title(array('text' => "Date", 'style' => $style));
+    	$ob->xAxis->type('datetime');
+    	$ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
+    	$ob->yAxis->min(0);
+    	$ob->yAxis->title(array('text' => "Nombre de presents", 'style' => $style));
     	$ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-    	$ob->tooltip->pointFormat('{point.y} pr�sent le {point.date}<br />{point.name}');
+    	$ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name}');
+    	$ob->credits->enabled(false);
+    	
+    	$ob->legend->floating(true);
     	$ob->legend->layout('vertical');
-    	$ob->legend->y(40);
-    	$ob->legend->x(90);
-    	$ob->legend->verticalAlign('top');
+    	$ob->legend->y(-60);
+    	$ob->legend->x(-10);
+    	$ob->legend->verticalAlign('bottom');
     	$ob->legend->reversed(true);
-    	$ob->legend->align('left');
-    	$ob->legend->backgroundColor('#FFFFFF');
+    	$ob->legend->align('right');
+    	$ob->legend->backgroundColor('#F6F6F6');
     	$ob->legend->itemStyle($style);
-    	$ob->plotOptions->series(array('lineWidth' => 5, 'marker' => array('radius' => 8)));
+    	$ob->plotOptions->series(
+    		array(
+    	       'lineWidth' => 3,
+    	       'marker' => array('radius' => 6),
+    		)
+    	);
     	/*
-    	 *
-    	 * *********************** */
+    	 $ob->plotOptions->line(
+    	 array(
+    	 'dataLabels' => array(
+    	 'enabled' => true,
+    	 'align' => 'left',
+    	 'verticalAlign' => 'center',
+    	 'x' => 5,
+    	 'format' => '{point.prix} €'
+    	
+    	 )
+    	 )
+    	 );*/
+    	
+    	$ob->series($series);
+    	
+    	//return $this->render('mgateStatBundle:Default:ca.html.twig', array(
     	return $this->render('mgateStatBundle:Indicateurs:Indicateur.html.twig', array(
     			'chart' => $ob
     	));
+//     	return new Response(var_dump($series[0]['data']));
     }
     
     /**
@@ -1519,24 +1529,24 @@ class IndicateursController extends Controller {
         $ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
         $ob->yAxis->min(0);
         $ob->yAxis->title(array('text' => "Chiffre d'Affaire signé cumulé", 'style' => $style));
-        $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} à {point.prix} €');
-        $ob->credits->enabled(false);
-        $ob->legend->floating(true);
-        $ob->legend->layout('vertical');
-        $ob->legend->y(-60);
-        $ob->legend->x(-10);
-        $ob->legend->verticalAlign('bottom');
-        $ob->legend->reversed(true);
-        $ob->legend->align('right');
-        $ob->legend->backgroundColor('#F6F6F6');
-        $ob->legend->itemStyle($style);
-        $ob->plotOptions->series(
-            array(                
-                'lineWidth' => 3,
-                'marker' => array('radius' => 6),
-                )
-            );
+//         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
+//         $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} à {point.prix} €');
+//         $ob->credits->enabled(false);
+//         $ob->legend->floating(true);
+//         $ob->legend->layout('vertical');
+//         $ob->legend->y(-60);
+//         $ob->legend->x(-10);
+//         $ob->legend->verticalAlign('bottom');
+//         $ob->legend->reversed(true);
+//         $ob->legend->align('right');
+//         $ob->legend->backgroundColor('#F6F6F6');
+//         $ob->legend->itemStyle($style);
+//         $ob->plotOptions->series(
+//             array(                
+//                 'lineWidth' => 3,
+//                 'marker' => array('radius' => 6),
+//                 )
+//             );
         /*
         $ob->plotOptions->line(
             array(
