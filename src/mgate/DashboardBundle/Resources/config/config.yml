@@ -1,0 +1,4 @@
+mopa_bootstrap:
+    navbar: ~
+    tags:
+        - { name: mopa_bootstrap.navbar, alias: frontendNavbar }
