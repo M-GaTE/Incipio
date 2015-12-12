@@ -425,7 +425,7 @@ class EtudeController extends Controller {
     private function constructArrayAssoc(array $etudes) {
         $etudesAssoc = array();
         foreach ($etudes as $e) {
-            $etudesAssoc[$e->getId()] = $this->get('mgate.etude_manager')->getRefEtude($e) . " - " . $e->getNom();
+            $etudesAssoc[$e->getId()] = $e->getReference() . " - " . $e->getNom();
         }
         return $etudesAssoc;
     }

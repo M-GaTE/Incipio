@@ -24,3 +24,7 @@ nbproject/*
 src/mgate/UserBundle/DataFixtures/ORM/LoadAdminData.php
 /vendor/
 /bin/
+.buildpath
+temp.js
+.project
+.settings/
