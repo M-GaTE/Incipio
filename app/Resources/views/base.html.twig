@@ -1,0 +1,133 @@
+{#
+This file is part of Incipio.
+
+Incipio is an enterprise resource planning for Junior Enterprise
+Copyright (C) 2012-2014 Florian Lefevre.
+
+Incipio is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+Incipio is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/licenses/>.
+#}
+<!DOCTYPE html>
+
+{% block html_tag %}
+<html>
+{% endblock html_tag %}
+{% block head %}
+    <head>
+        <meta charset="UTF-8" />
+{% block head_style %}
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.10.0.custom.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/select2.css')}}"/>
+        {{ render(controller('mgateDashboardBundle:Default:mgateCSS')) }}
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+{% endblock head_style %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block head_script %}
+        <script src="{{ asset('js/jquery-1.9.1.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/jquery-ui-1.10.0.custom.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.tablesorter.js') }}"></script>
+        <script src="{{ asset('js/jquery.ui.datepicker-fr.js')}}"></script>
+        <script src="{{ asset('js/select2.min.js')}}"></script>
+        <script src="{{ asset('js/mgate.js')}}"></script>
+        <script src="{{ asset('js/bootboxjs.min.js')}}"></script>
+{% endblock head_script %}
+        <title>{% block title %}{% endblock title %} - Incipio</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+{% block head_bottom %}
+{% endblock head_bottom %}
+    </head>
+{% endblock head %}
+    <body>
+{% block body %}
+{% block javascript_quick %}
+{% endblock %} 
+{% block headbar %}
+{% if app.user %}
+        <div class="nomJunior"><a href="{{ path('mgate_dashboard_homepage') }}">My {{ junior['abbr'] }}</a><a href="#menu-toggle" class="glyphicon glyphicon-menu-hamburger" id="menu-toggle"></a></div>
+        <nav class="navbar navbar-default navbar-static-top" id="navbar-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar" class="navbar-main navbar-collapse collapse">
+{{ include('mgateDashboardBundle:Navbar:compte.html.twig') }}
+                </div>
+            </div>
+        </nav>
+{% endif %}
+{% endblock headbar %}
+
+{% block container %}
+        <div id="wrapper">
+
+{% block content_row %}
+{% if app.user %}
+        <div class="sidebar-nav" id="sidebar-wrapper">
+            <div class="menu">
+                {{ include('mgateDashboardBundle:Navbar:staff.html.twig', {'etudesSuiveur' : getEtudes(app.user)}) }} {# Inclusion du menu #}
+            </div>
+        </div>
+{% endif %}
+        <div class="container-fluid">
+            <div id="page-content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 main">
+                        <div id="content" class="contentMain">
+{% block content %}
+{% endblock content %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock content_row %}
+            <footer>
+{% block footer %}
+                    <div id="footer" class="hidden-print">
+                        <div class="container">
+                            <p style="text-align: center">V 0.2 <i>© <a href="http://incipio.fr">Incipio</a> 2015</i></p>
+                        </div>
+                    </div>
+{% endblock footer %}
+            </footer>
+        </div>
+        </div>
+{% block javascript %}
+        <!-- GOOGLE ANALYTICS -->
+        <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{{ junior['ga_tracking'] }}']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script>
+{% endblock %}
+{% endblock container %}
+{% endblock body %}
+    </body>
+</html>

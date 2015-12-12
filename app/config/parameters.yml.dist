@@ -34,3 +34,6 @@ parameters:
         authorizedStorageSize : 104857600
         domaineEmailEtu:    ~
         domaineEmailAncien: ~
+
+###Configuration de la couleur de l'interface (#rrvvbb)
+    color_top:        ~

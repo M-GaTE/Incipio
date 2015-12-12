@@ -70,4 +70,3 @@ class RegistrationListener implements EventSubscriberInterface
         
     }
 }
-

@@ -19,7 +19,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
+<nav class="navbar navbar-default navbar-static-top" id="navbar-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main">
@@ -28,11 +28,13 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('mgate_dashboard_homepage') }}">My {{ junior['abbr'] }}</a>
+        <a class="navbar-brand" href="{{ path('mgate_dashboard_homepage') }}" id="nomJunior">My {{ junior['abbr'] }}</a>
     </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-main">
-        {% include "mgateDashboardBundle:Navbar:staff.html.twig" with {'etudesSuiveur' : etudesSuiveur }%}
-        {% include "mgateDashboardBundle:Navbar:compte.html.twig" %}
-    </div><!-- /.navbar-collapse -->
+    {% include "mgateDashboardBundle:Navbar:compte.html.twig" %}
 </nav>
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="col-md-2" id="col-menu">
+    <div class="menu">
+        {% include "mgateDashboardBundle:Navbar:staff.html.twig" with {'etudesSuiveur' : etudesSuiveur}%}
+    </div>
+</div>
