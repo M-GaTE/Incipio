@@ -797,15 +797,15 @@ class IndicateursController extends Controller {
     	$ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name}');
     	$ob->credits->enabled(false);
     	
-    	$ob->legend->floating(true);
-    	$ob->legend->layout('vertical');
-    	$ob->legend->y(-60);
-    	$ob->legend->x(-10);
-    	$ob->legend->verticalAlign('bottom');
-    	$ob->legend->reversed(true);
-    	$ob->legend->align('right');
-    	$ob->legend->backgroundColor('#F6F6F6');
-    	$ob->legend->itemStyle($style);
+//     	$ob->legend->floating(true);
+//     	$ob->legend->layout('vertical');
+//     	$ob->legend->y(-60);
+//     	$ob->legend->x(-10);
+//     	$ob->legend->verticalAlign('bottom');
+//     	$ob->legend->reversed(true);
+//     	$ob->legend->align('right');
+//     	$ob->legend->backgroundColor('#F6F6F6');
+//     	$ob->legend->itemStyle($style);
     	$ob->plotOptions->series(
     		array(
     	       'lineWidth' => 3,
