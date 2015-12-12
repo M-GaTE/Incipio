@@ -176,6 +176,7 @@ class IndicateursController extends Controller {
         $membres = new Indicateur();
         $membres->setTitre('Nombre de Membres')
             ->setMethode('getNombreMembres');
+        
 
         /************************************************
          * 				Indicateurs RFP					*
@@ -212,6 +213,7 @@ class IndicateursController extends Controller {
         $repartitionSortieNFFA->setTitre('Répartition des dépenses sur le mandat')
             ->setMethode('getRepartitionSorties');
         
+        
         /************************************************
          * 		Indicateurs Prospection Commerciale		*
          * ********************************************** */
@@ -232,6 +234,12 @@ class IndicateursController extends Controller {
         $clientFidel->setTitre('Taux de fidélisation')
             ->setMethode('getPartClientFidel');
         
+            
+        // Repartition du ca sur l'annee
+        $repartitionCA = new Indicateur();
+        $repartitionCA->setTitre('Repartition du CA sur lannee')
+        				->setMethode('getRepartitionSurLannee');
+        
         $stats = $this->getStatistiques();
         
 
@@ -245,10 +253,12 @@ class IndicateursController extends Controller {
             ->setIndicateurs($membres, 'Gestion')
             ->setIndicateurs($repartitionClient, 'Com')
             ->setIndicateurs($repartitionCAClient, 'Com')
+            ->setIndicateurs($repartitionCA, 'Com')
             ->setIndicateurs($clientFidel, 'Com')
             ->setIndicateurs($tauxAvenant, 'Suivi')
             ->setIndicateurs($nombreEtudes, 'Suivi')
             ->setIndicateurs($retardSurEtude , 'Suivi')
+            
             ->setIndicateurs($nombreDeFormationsParMandat, 'Rfp')
             ->setIndicateurs($presenceAuxFormationsTimed, 'Rfp');
 
@@ -1118,6 +1128,111 @@ class IndicateursController extends Controller {
                 'chart' => $ob
             ));
     }
+    
+    
+	/**
+	 * @Secure(roles="ROLE_CA")
+	 */
+    private function getRepartitionSurLannee(){
+    	$etudeManager = $this->get('mgate.etude_manager');
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$Ccs = $this->getDoctrine()->getManager()->getRepository('mgateSuiviBundle:Cc')->findBy(array(), array('dateSignature' => 'asc'));
+    	
+    	/* Initialisation */
+//     	$mandats = 0;
+    	$cumuls = array();
+//      	$cumulsJEH = array();
+//      	$cumulsFrais = array();
+    	for ($i = 1; $i <= 12; $i++)
+    		$cumuls[$i] = 0;
+    	
+    	$mandatEncours = $etudeManager->getMaxMandatCc();
+    	
+    	
+    	foreach ($Ccs as $cc) {
+    		$etude = $cc->getEtude();
+    		$dateSignature = $cc->getDateSignature();
+    		$signee = $etude->getStateID() == STATE_ID_EN_COURS_X
+    		|| $etude->getStateID() == STATE_ID_TERMINEE_X;
+    		
+    		if ($dateSignature && $signee 
+    				&& ($etudeManager->dateToMandat($dateSignature)==$mandatEncours)) {
+    			$mois = intval($dateSignature->format("m"));
+				$cumuls[$mois] += $etude->getMontantHT();
+    		}
+    		
+    	
+    		
+    	}
+
+    	$datas = array();
+    	$categories = array("Jan","Fev","Mar","Avr","Mai","Juin","Juil","Aou","Sept","Oct","Nov","Dec");
+    	foreach($cumuls as $mois => $data){
+//     		$categories[] = $mois;//jdmonthname($mois,3);
+    		$datas[] = array('y' => $data);
+    	}
+    	
+    	//return new Response(var_dump($datas,$categories));
+    	/*         * ***********************
+    	 * CHART
+    	 */
+    	$ob = new Highchart();
+    	$ob->chart->renderTo(__FUNCTION__);
+    	// OTHERS
+    	$ob->chart->type('column');
+    	
+    	/*         * ***********************
+    	 * DATAS
+    	 */
+    	$series = array(
+    			array(
+    					"name" => "CA Signé",
+    					"colorByPoint" => true,
+    					"data" => $datas,
+    					"dataLabels" => array(
+    							"enabled" => true,
+    							"rotation" => -90,
+    							"align" => "right",
+    							'format' => '{point.y} €',
+    							"style" => array(
+    									'color' => '#FFFFFF',
+    									"fontSize"  => '20px',
+    									"fontFamily" => 'Verdana, sans-serif',
+    									"textShadow" => '0 0 3px black',),
+    							"y" => 25,
+    	
+    					),
+    			)
+    	);
+    	
+    	$ob->series($series);
+    	$ob->xAxis->categories($categories);
+    	$ob->yAxis->min(0);
+    	$style = array('color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px');
+    	$ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
+     	$ob->xAxis->labels(array('style' => $style));
+     	$ob->xAxis->type('datetime');
+    	$ob->yAxis->labels(array('style' => $style));
+    	$ob->credits->enabled(false);
+    	//$ob->legend->enabled(false);
+    	
+    	/*         * ***********************
+    	* TEXTS AND LABELS
+    	*/
+    	$ob->title->text('Chiffre d affaire par mois');
+    	$ob->yAxis->title(array('text' => "CA", 'style' => $style));
+    	$ob->xAxis->title(array('text' => "Mois", 'style' => $style));
+    	
+    	/*
+    	*
+    	* *********************** */
+    	
+    	return $this->render('mgateStatBundle:Indicateurs:Indicateur.html.twig', array(
+    		'chart' => $ob
+    	));
+    	
+    }
 
     function cmp($a, $b) {
         if ($a['date'] == $b['date']) {
@@ -1429,6 +1544,7 @@ class IndicateursController extends Controller {
                     ),
                 )
             );
+		//return new Response(var_dump($data));
         $ob->series($series);
         $ob->xAxis->categories($categories);
 
@@ -1505,14 +1621,16 @@ class IndicateursController extends Controller {
             }
         }
 
-
-
+		// return new Response(var_dump($mandats));
+	
         // Chart
         $series = array();
         foreach ($mandats as $idMandat => $data) {
-            //if($idMandat>=4)
+            // if($idMandat>=4)
             $series[] = array("name" => "Mandat " . $idMandat . " - " . $etudeManager->mandatToString($idMandat), "data" => $data);
         }
+		
+		//return new Response(var_dump($series[0],$mandats));
 
         $style = array('color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px');
 
@@ -1529,9 +1647,9 @@ class IndicateursController extends Controller {
         $ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
         $ob->yAxis->min(0);
         $ob->yAxis->title(array('text' => "Chiffre d'Affaire signé cumulé", 'style' => $style));
-//         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-//         $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} à {point.prix} €');
-//         $ob->credits->enabled(false);
+        $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
+        $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} à {point.prix} €');
+        $ob->credits->enabled(false);
 //         $ob->legend->floating(true);
 //         $ob->legend->layout('vertical');
 //         $ob->legend->y(-60);
@@ -1541,12 +1659,12 @@ class IndicateursController extends Controller {
 //         $ob->legend->align('right');
 //         $ob->legend->backgroundColor('#F6F6F6');
 //         $ob->legend->itemStyle($style);
-//         $ob->plotOptions->series(
-//             array(                
-//                 'lineWidth' => 3,
-//                 'marker' => array('radius' => 6),
-//                 )
-//             );
+        //$ob->plotOptions->series(
+           // array(                
+           //     'lineWidth' => 3,
+            //    'marker' => array('radius' => 6),
+           //    / )
+           // );
         /*
         $ob->plotOptions->line(
             array(

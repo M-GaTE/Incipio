@@ -66,7 +66,7 @@ class DefaultController extends Controller
     }
 
     public function mgateCSSAction(){
-        $navbarTop = $this->container->getParameter('color_top');
+        $navbarTop = "#c52000"; //$this->container->getParameter('color_top');
         $navbarTopLight = $this->sumColor($navbarTop,"#FFFFFF",0.2);
         $colorTopVeryLight = $this->sumColor($navbarTop,"#FFFFFF",0.4);
         $footer = $this->sumColor($navbarTop,"#FFFFFF",0.8);
@@ -82,6 +82,15 @@ class DefaultController extends Controller
             'link' => $link,
             'sidebarVeryLight' => $sidebarVeryLight,
             ));
+        /*return new Response(var_dump(array(
+            'colorTop' => $navbarTop,
+            'colorTopLight' => $navbarTopLight,
+            'colorTopVeryLight' => $colorTopVeryLight,
+            'footer' => $footer,
+            'sidebar' => $sidebar,
+            'link' => $link,
+            'sidebarVeryLight' => $sidebarVeryLight,
+            )));*/
     }
 
     protected function sumColor($color1,$color2,$ratio){
