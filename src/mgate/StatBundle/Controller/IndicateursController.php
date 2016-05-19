@@ -129,16 +129,17 @@ class IndicateursController extends Controller {
         if (isset($_SESSION['autorizedMethods']))
             unset($_SESSION['autorizedMethods']);
 
-        // Définition des catégories     
+        // DÃ©finition des catÃ©gories     
         $this->indicateursCollection
             ->addCategorieIndicateurs('Suivi')
             ->addCategorieIndicateurs('Rfp')
             ->addCategorieIndicateurs('Com')
             ->addCategorieIndicateurs('Treso')
-            ->addCategorieIndicateurs('Gestion');
+            ->addCategorieIndicateurs('Gestion')
+        	->addCategorieIndicateurs('Qualite');
 
         /************************************************
-         * 			Indicateurs Suivi d'études			*
+         * 			Indicateurs Suivi d'Ã©tudes			*
          * ********************************************** */
         
         // Taux d'avenant par mandat = Rate EtudeAvecAvenant/NombreEtude
@@ -146,11 +147,11 @@ class IndicateursController extends Controller {
         $tauxAvenant->setTitre('Taux d\'avenant par mandat')
             ->setMethode('getTauxDAvenantsParMandat');
         
-        // Cammember étude selon domaine de compétence 
+        // Cammember Ã©tude selon domaine de compÃ©tence 
         // TODO : Selectionner un mandat default getMaxMandat
         
         $nombreEtudes = new Indicateur();
-        $nombreEtudes->setTitre('Nombre d\'études par mandat')
+        $nombreEtudes->setTitre('Nombre d\'Ã©tudes par mandat')
             ->setMethode('getNombreEtudes');
         
         $retardSurEtude = new Indicateur();
@@ -182,16 +183,16 @@ class IndicateursController extends Controller {
          * 				Indicateurs RFP					*
          * ********************************************** */
         $nombreDeFormationsParMandat = new Indicateur();
-        $nombreDeFormationsParMandat->setTitre('Nombre de formations théorique par mandat')
+        $nombreDeFormationsParMandat->setTitre('Nombre de formations thÃ©orique par mandat')
             ->setMethode('getNombreFormationsParMandat');
         
         
         $presenceAuxFormationsTimed = new Indicateur();
-        $presenceAuxFormationsTimed->setTitre('Nombre de présents aux formations')
+        $presenceAuxFormationsTimed->setTitre('Nombre de prÃ©sents aux formations')
             ->setMethode('getNombreDePresentFormationsTimed');
         
         /************************************************
-         * 			Indicateurs Trésorerie 			*
+         * 			Indicateurs TrÃ©sorerie 			*
          * ********************************************** */      
         //Chiffre d'affaires en fonction du temps sur les Mandats
         $chiffreAffaires = new Indicateur();
@@ -203,24 +204,24 @@ class IndicateursController extends Controller {
         $chiffreAffairesMandat->setTitre('Evolution du Chiffre d\'Affaires par Mandat')
             ->setMethode('getCAM');
         
-        //Dépense HT par mandat
+        //DÃ©pense HT par mandat
         $sortieNFFA = new Indicateur();
-        $sortieNFFA->setTitre('Evolution des dépenses par mandats')
+        $sortieNFFA->setTitre('Evolution des dÃ©penses par mandats')
             ->setMethode('getSortie');
         
-        //Répartition des dépenses sur le mandat
+        //RÃ©partition des dÃ©penses sur le mandat
         $repartitionSortieNFFA = new Indicateur();
-        $repartitionSortieNFFA->setTitre('Répartition des dépenses sur le mandat')
+        $repartitionSortieNFFA->setTitre('RÃ©partition des dÃ©penses sur le mandat')
             ->setMethode('getRepartitionSorties');
         
         
         /************************************************
          * 		Indicateurs Prospection Commerciale		*
          * ********************************************** */
-        // Provenance des études (tous mandats) par type de client
+        // Provenance des Ã©tudes (tous mandats) par type de client
         // TODO : selectionner un mandat default getMaxMandat -1 = tous les mandats
         $repartitionClient = new Indicateur();
-        $repartitionClient->setTitre('Provenance de nos études par type de Client (tous mandats)')
+        $repartitionClient->setTitre('Provenance de nos Ã©tudes par type de Client (tous mandats)')
             ->setMethode('getRepartitionClientParNombreDEtude');
         
         // Provenance du chiffre d'Affaires (tous mandats) par type de client
@@ -229,9 +230,19 @@ class IndicateursController extends Controller {
         $repartitionCAClient->setTitre('Provenance du chiffre d\'Affaires par type de Client (tous mandats)')
             ->setMethode('getRepartitionClientSelonChiffreAffaire');
         
-        // Taux de fidélisation
+        //provenance des études pour le mandat en cours
+        $repartitionClientMandat = new Indicateur();
+        $repartitionClientMandat->setTitre('Provenance de nos Ã©tudes par type de Client')
+        						->setMethode('getRepartitionClientParNombreDEtudeMandat');
+        
+       	//Provenance du chiffre d'affaire pour le mandat en cour
+       	$repartitionCAClientMandat = new Indicateur();
+       	$repartitionCAClientMandat->setTitre('Provenance du chiffre d\'Affaires par type de Client')
+       							->setMethode('getRepartitionClientSelonChiffreAffaireMandat');	
+        
+        // Taux de fidÃ©lisation
         $clientFidel = new Indicateur();
-        $clientFidel->setTitre('Taux de fidélisation')
+        $clientFidel->setTitre('Taux de fidÃ©lisation')
             ->setMethode('getPartClientFidel');
         
             
@@ -242,6 +253,19 @@ class IndicateursController extends Controller {
         
         $stats = $this->getStatistiques();
         
+        /************************************************
+         * Indicateurs qualités							*
+         * 												*
+         ************************************************/
+        
+        
+        
+        
+        
+        /**
+         * 
+         * Ajout de chaque indicateur dans la catégorie approprié 
+         */
 
         $this->indicateursCollection
             ->setIndicateurs($chiffreAffaires, 'Treso')
@@ -253,16 +277,17 @@ class IndicateursController extends Controller {
             ->setIndicateurs($membres, 'Gestion')
             ->setIndicateurs($repartitionClient, 'Com')
             ->setIndicateurs($repartitionCAClient, 'Com')
+            ->setIndicateurs($repartitionClientMandat, 'Com')
+            ->setIndicateurs($repartitionCAClientMandat, 'Com')
             ->setIndicateurs($repartitionCA, 'Com')
             ->setIndicateurs($clientFidel, 'Com')
             ->setIndicateurs($tauxAvenant, 'Suivi')
             ->setIndicateurs($nombreEtudes, 'Suivi')
             ->setIndicateurs($retardSurEtude , 'Suivi')
-            
             ->setIndicateurs($nombreDeFormationsParMandat, 'Rfp')
             ->setIndicateurs($presenceAuxFormationsTimed, 'Rfp');
 
-        //Enregistrement Cross Requete des Méthodes tolérées
+        //Enregistrement Cross Requete des MÃ©thodes tolÃ©rÃ©es
         $_SESSION['autorizedMethods'] = $this->indicateursCollection->getAutorizedMethods();
 
         return $this->render('mgateStatBundle:Indicateurs:index.html.twig', array('indicateursSuivi' => $this->indicateursCollection->getIndicateurs('Suivi'),
@@ -302,7 +327,7 @@ class IndicateursController extends Controller {
     /**
      * @Secure(roles="ROLE_CA")
      */
-    // NB On se base pas sur les numéro mais les dates de signature CC !
+    // NB On se base pas sur les numÃ©ro mais les dates de signature CC !
     private function getRetardParMandat() {
         $etudeManager = $this->get('mgate.etude_manager');
         $em = $this->getDoctrine()->getManager();
@@ -344,7 +369,7 @@ class IndicateursController extends Controller {
                 $data[] = array('y' => 100 * ($nombreJoursAvecAvenantParMandat[$idMandat] - $datas) / $datas, 'nombreEtudes' => $datas, 'nombreEtudesAvecAv' => $nombreJoursAvecAvenantParMandat[$idMandat] - $datas);
             }
         }
-        $series = array(array("name" => "Nombre de jour de retard / nombre de jour travaillés", "colorByPoint" => true, "data" => $data));
+        $series = array(array("name" => "Nombre de jour de retard / nombre de jour travaillÃ©s", "colorByPoint" => true, "data" => $data));
 
 
         /*         * ***********************
@@ -358,7 +383,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * DATAS
          */
-        $series = array(array("name" => "Nombre de jour de retard / nombre de jour travaillés", "colorByPoint" => true, "data" => $data));
+        $series = array(array("name" => "Nombre de jour de retard / nombre de jour travaillÃ©s", "colorByPoint" => true, "data" => $data));
         $ob->series($series);
         $ob->xAxis->categories($categories);
 
@@ -381,7 +406,7 @@ class IndicateursController extends Controller {
         $ob->yAxis->title(array('text' => "Taux (%)", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('Les études ont duré en moyenne {point.y:.2f} % de plus que prévu<br/>avec {point.nombreEtudesAvecAv} jours de retard sur {point.nombreEtudes} jours travaillés');
+        $ob->tooltip->pointFormat('Les Ã©tudes ont durÃ© en moyenne {point.y:.2f} % de plus que prÃ©vu<br/>avec {point.nombreEtudesAvecAv} jours de retard sur {point.nombreEtudes} jours travaillÃ©s');
 
         /*
          *
@@ -395,7 +420,7 @@ class IndicateursController extends Controller {
     /**
      * @Secure(roles="ROLE_CA")
      */
-    // NB On se base pas sur les numéro mais les dates de signature CC !
+    // NB On se base pas sur les numÃ©ro mais les dates de signature CC !
     private function getNombreEtudes() {
         $etudeManager = $this->get('mgate.etude_manager');
         $em = $this->getDoctrine()->getManager();
@@ -431,7 +456,7 @@ class IndicateursController extends Controller {
                 $data[] = array('y' => $datas,);
             }
         }
-        $series = array(array("name" => "Nombre d'études par mandat", "colorByPoint" => true, "data" => $data));
+        $series = array(array("name" => "Nombre d'Ã©tudes par mandat", "colorByPoint" => true, "data" => $data));
 
 
         /*         * ***********************
@@ -446,7 +471,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * DATAS
          */
-        $series = array(array("name" => "Nombre d'études par mandat", "colorByPoint" => true, "data" => $data));
+        $series = array(array("name" => "Nombre d'Ã©tudes par mandat", "colorByPoint" => true, "data" => $data));
         $ob->series($series);
         $ob->xAxis->categories($categories);
 
@@ -464,11 +489,11 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text('Nombre d\'études par mandat');
+        $ob->title->text('Nombre d\'Ã©tudes par mandat');
         $ob->yAxis->title(array('text' => "Nombre", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} études');
+        $ob->tooltip->pointFormat('{point.y} Ã©tudes');
 
         /*
          *
@@ -521,7 +546,7 @@ class IndicateursController extends Controller {
             $data[] = array($compte, 100 * $montantHT / $montantTotal);
         }
         
-        $series = array(array('type' => 'pie', 'name' => 'Répartition des dépenses', 'data' => $data, 'Dépenses totale' => $montantTotal));
+        $series = array(array('type' => 'pie', 'name' => 'RÃ©partition des dÃ©penses', 'data' => $data, 'DÃ©penses totale' => $montantTotal));
 
 
         /*         * ***********************
@@ -548,7 +573,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text("Répartition des dépenses selon les comptes comptables (Mandat en cours)");
+        $ob->title->text("RÃ©partition des dÃ©penses selon les comptes comptables (Mandat en cours)");
         $ob->tooltip->pointFormat('{point.percentage:.1f} %');
 
         /*
@@ -582,7 +607,7 @@ class IndicateursController extends Controller {
         foreach ($sortiesParMandat as $mandat => $nfs) { // Pour chaque Mandat
             $mandats[] = $mandat;
             foreach ($nfs as $nf){ // Pour chaque NF d'un mandat
-                foreach ($nf->getDetails() as $detail){ // Pour chaque détail d'une NF
+                foreach ($nf->getDetails() as $detail){ // Pour chaque dÃ©tail d'une NF
                     $compte = $detail->getCompte();
                     if($compte != NULL){
                         $compte = $detail->getCompte()->getLibelle();
@@ -655,11 +680,11 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text('Montant HT des dépenses');
-        $ob->yAxis->title(array('text' => "Montant (€)", 'style' => $style));
+        $ob->title->text('Montant HT des dÃ©penses');
+        $ob->yAxis->title(array('text' => "Montant (â‚¬)", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} € HT');
+        $ob->tooltip->pointFormat('{point.y} â‚¬ HT');
 
         /*
          *
@@ -703,10 +728,10 @@ class IndicateursController extends Controller {
         $data = array();
         ksort($repartitions);
         foreach ($repartitions as $occ => $nbr ){
-            $data[] = array($occ == 1 ? "$nbr Nouveaux clients" : "$nbr Anciens clients ($occ études)", 100 * $nbr / $nombreClient);
+            $data[] = array($occ == 1 ? "$nbr Nouveaux clients" : "$nbr Anciens clients ($occ Ã©tudes)", 100 * $nbr / $nombreClient);
         }
         
-        $series = array(array('type' => 'pie', 'name' => 'Taux de fidélisation', 'data' => $data, 'Nombre de client' => $nombreClient));
+        $series = array(array('type' => 'pie', 'name' => 'Taux de fidÃ©lisation', 'data' => $data, 'Nombre de client' => $nombreClient));
 
 
         /*         * ***********************
@@ -733,7 +758,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text("Taux de fidélisation (% de clients ayant demandé plusieurs études)");
+        $ob->title->text("Taux de fidÃ©lisation (% de clients ayant demandÃ© plusieurs Ã©tudes)");
         $ob->tooltip->pointFormat('{point.percentage:.1f} %');
 
         /*
@@ -820,7 +845,7 @@ class IndicateursController extends Controller {
     	 'align' => 'left',
     	 'verticalAlign' => 'center',
     	 'x' => 5,
-    	 'format' => '{point.prix} €'
+    	 'format' => '{point.prix} â‚¬'
     	
     	 )
     	 )
@@ -882,7 +907,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text('Nombre de formations théorique par mandat');
+        $ob->title->text('Nombre de formations thÃ©orique par mandat');
         $ob->yAxis->title(array('text' => "Nombre de formations", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
@@ -901,7 +926,7 @@ class IndicateursController extends Controller {
     /**
      * @Secure(roles="ROLE_CA")
      */
-    // NB On se base pas sur les numéro mais les dates de signature CC !
+    // NB On se base pas sur les numÃ©ro mais les dates de signature CC !
     private function getTauxDAvenantsParMandat() {
         $etudeManager = $this->get('mgate.etude_manager');
         $em = $this->getDoctrine()->getManager();
@@ -980,7 +1005,7 @@ class IndicateursController extends Controller {
         $ob->yAxis->title(array('text' => "Taux (%)", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y:.2f} %<br/>avec {point.nombreEtudesAvecAv} sur {point.nombreEtudes} études');
+        $ob->tooltip->pointFormat('{point.y:.2f} %<br/>avec {point.nombreEtudesAvecAv} sur {point.nombreEtudes} Ã©tudes');
 
         /*
          *
@@ -1022,7 +1047,7 @@ class IndicateursController extends Controller {
             $data[] = array($type, round($CA / $chiffreDAffairesTotal * 100, 2));
         }
 
-        $series = array(array('type' => 'pie', 'name' => 'Provenance de nos études par type de Client (tous mandats)', 'data' => $data, 'CA Total' => $chiffreDAffairesTotal));
+        $series = array(array('type' => 'pie', 'name' => 'Provenance de nos Ã©tudes par type de Client (tous mandats)', 'data' => $data, 'CA Total' => $chiffreDAffairesTotal));
 
 
         /*         * ***********************
@@ -1049,7 +1074,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text("Répartition du CA selon le type de Client ($chiffreDAffairesTotal € CA)");
+        $ob->title->text("RÃ©partition du CA selon le type de Client ($chiffreDAffairesTotal â‚¬ CA)");
         $ob->tooltip->pointFormat('{point.percentage:.1f} %');
 
         /*
@@ -1090,7 +1115,7 @@ class IndicateursController extends Controller {
             $data[] = array($type, round($nombre / $nombreClient * 100, 2));
         }
 
-        $series = array(array('type' => 'pie', 'name' => 'Provenance des études par type de Client (tous mandats)', 'data' => $data, 'nombreClient' => $nombreClient));
+        $series = array(array('type' => 'pie', 'name' => 'Provenance des Ã©tudes par type de Client (tous mandats)', 'data' => $data, 'nombreClient' => $nombreClient));
 
 
         /*         * ***********************
@@ -1117,7 +1142,7 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text("Provenance des études par type de Client ($nombreClient Etudes)");
+        $ob->title->text("Provenance des Ã©tudes par type de Client ($nombreClient Etudes)");
         $ob->tooltip->pointFormat('{point.percentage:.1f} %');
 
         /*
@@ -1187,14 +1212,14 @@ class IndicateursController extends Controller {
     	 */
     	$series = array(
     			array(
-    					"name" => "CA Signé",
+    					"name" => "CA SignÃ©",
     					"colorByPoint" => true,
     					"data" => $datas,
     					"dataLabels" => array(
     							"enabled" => true,
     							"rotation" => -90,
     							"align" => "right",
-    							'format' => '{point.y} €',
+    							'format' => '{point.y} â‚¬',
     							"style" => array(
     									'color' => '#FFFFFF',
     									"fontSize"  => '20px',
@@ -1526,14 +1551,14 @@ class IndicateursController extends Controller {
          */
         $series = array(
             array(
-                "name" => "CA Signé",
+                "name" => "CA SignÃ©",
                 "colorByPoint" => true, 
                 "data" => $data,
                 "dataLabels" => array(
                     "enabled" => true,
                     "rotation" => -90,
                     "align" => "right",
-                    'format' => '{point.y} €',
+                    'format' => '{point.y} â‚¬',
                     "style" => array(
                         'color' => '#FFFFFF', 
                         "fontSize"  => '20px',
@@ -1562,11 +1587,11 @@ class IndicateursController extends Controller {
         /*         * ***********************
          * TEXTS AND LABELS
          */
-        $ob->title->text('Évolution du chiffre d\'affaires signé cumulé par mandat');
-        $ob->yAxis->title(array('text' => "CA (€)", 'style' => $style));
+        $ob->title->text('Ã‰volution du chiffre d\'affaires signÃ© cumulÃ© par mandat');
+        $ob->yAxis->title(array('text' => "CA (â‚¬)", 'style' => $style));
         $ob->xAxis->title(array('text' => "Mandat", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} €<br/>en {point.JEH} JEH<br/>soit {point.moyJEH:.2f} €/JEH');
+        $ob->tooltip->pointFormat('{point.y} â‚¬<br/>en {point.JEH} JEH<br/>soit {point.moyJEH:.2f} â‚¬/JEH');
 
         /*
          *
@@ -1640,15 +1665,15 @@ class IndicateursController extends Controller {
         $ob->chart->renderTo(__FUNCTION__);  // The #id of the div where to render the chart
         $ob->xAxis->labels(array('style' => $style));
         $ob->yAxis->labels(array('style' => $style));
-        $ob->title->text('Évolution par mandat du chiffre d\'affaire signé cumulé');
+        $ob->title->text('Ã‰volution par mandat du chiffre d\'affaire signÃ© cumulÃ©');
         $ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
         $ob->xAxis->title(array('text' => "Date", 'style' => $style));
         $ob->xAxis->type('datetime');
         $ob->xAxis->dateTimeLabelFormats(array('month' => "%b"));
         $ob->yAxis->min(0);
-        $ob->yAxis->title(array('text' => "Chiffre d'Affaire signé cumulé", 'style' => $style));
+        $ob->yAxis->title(array('text' => "Chiffre d'Affaire signÃ© cumulÃ©", 'style' => $style));
         $ob->tooltip->headerFormat('<b>{series.name}</b><br />');
-        $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} à {point.prix} €');
+        $ob->tooltip->pointFormat('{point.y} le {point.date}<br />{point.name} Ã  {point.prix} â‚¬');
         $ob->credits->enabled(false);
 //         $ob->legend->floating(true);
 //         $ob->legend->layout('vertical');
@@ -1673,7 +1698,7 @@ class IndicateursController extends Controller {
                     'align' => 'left',
                     'verticalAlign' => 'center',
                     'x' => 5, 
-                    'format' => '{point.prix} €'
+                    'format' => '{point.prix} â‚¬'
                     
                     )
                 )
@@ -1805,7 +1830,7 @@ class IndicateursController extends Controller {
         $ob->chart->type("spline");
         $ob->xAxis->labels(array('style' => $style));
         $ob->yAxis->labels(array('style' => $style));
-        $ob->title->text("Évolution par mandat du nombre d'intervenant");
+        $ob->title->text("Ã‰volution par mandat du nombre d'intervenant");
         $ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
         $ob->xAxis->title(array('text' => "Date", 'style' => $style));
         $ob->xAxis->type('datetime');
@@ -1832,14 +1857,17 @@ class IndicateursController extends Controller {
             ));
     }
     
+//     private fun
+    
     private function getStatistiques(){
         $etudeManager = $this->get('mgate.etude_manager');
         $em = $this->getDoctrine()->getManager();
         
         
         
-        return array('Pas de données' => 'A venir');
+        return array('Pas de donnÃ©es' => 'A venir');
     }
+    
 
 }
 

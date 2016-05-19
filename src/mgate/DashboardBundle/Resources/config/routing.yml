@@ -26,3 +26,7 @@ mgate_dashboard_homepage:
 mgate_dashboard_navbar:
     pattern:  /navbar/
     defaults: { _controller: mgateDashboardBundle:Default:navbar }
+
+mgate_dashboard_css:
+    pattern:  /csstest/
+    defaults: { _controller: mgateDashboardBundle:Default:mgateCSS }  

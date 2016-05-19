@@ -36,4 +36,4 @@ parameters:
         domaineEmailAncien: ~
 
 ###Configuration de la couleur de l'interface (#rrvvbb)
-    color_top:        ~
+    color_top:

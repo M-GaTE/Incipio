@@ -1,4 +1,4 @@
-<style type="text/css">
+<style type="text/css" charset="iso-8859-1">
 body {
   overflow-x: hidden;
   margin-bottom: 60px;
@@ -104,14 +104,14 @@ ul > li > ul > li > a {
 }
 
 #navbar a:hover {
-  background-color: {{ colorTopVeryLight }};
+  background-color: {{ colorTopVeryLight|raw }};
 }
 
 #navbar-top {
   margin-bottom: 0px;
   position: fixed;
   width: 100%;
-  background-color: {{ colorTopLight }};
+  background-color: {{ colorTopLight|raw }};
 }
 
 .navbar-brand,.navbar-default {
@@ -122,7 +122,7 @@ ul > li > ul > li > a {
   padding-left: 15px;
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
-  background-color : {{ colorTopVeryLight }};
+  background-color : {{ colorTopVeryLight|raw }};
 }
 
 .btn {
@@ -145,13 +145,13 @@ ul > li > ul > li > a {
   background-color: #fff;
   width: 100%;
   height: 100%;
-  border-left: solid {{ colorTopVeryLight }};
+  border-left: solid {{ colorTopVeryLight|raw }};
   padding: 10px;
 }
 .box > h3 {
   margin-top: 7px;
   margin-bottom: 10px;
-  border-bottom: solid {{ colorTopVeryLight }};
+  border-bottom: solid {{ colorTopVeryLight|raw }};
 }
 .box > p,.citation > p{
   margin: 0;
@@ -164,7 +164,7 @@ ul > li > ul > li > a {
   z-index: 1010;
   left: 0px;
 {% if app.user %}
-  background-color: {{ colorTopLight }};
+  background-color: {{ colorTopLight|raw }};
 {% else %}
   background-color: #f5f5f5;
 {% endif %}
@@ -181,7 +181,7 @@ ul > li > ul > li > a {
 
 #footer p {
 {% if app.user %}
-  color: {{ footer }};
+  color: {{ footer|raw }};
 {% else %}
   color: #888;
 {% endif %}
@@ -189,7 +189,7 @@ ul > li > ul > li > a {
 
 #footer a {
 {% if app.user %}
-  color: {{ footer }};
+  color: {{ footer|raw }};
 {% else %}
   color: #888;
 {% endif %}
@@ -203,7 +203,7 @@ ul > li > ul > li > a {
 }
 
 .menu a {
-  color : {{ link }};
+  color : {{ link|raw }};
 }
 
 #col-menu {
@@ -226,7 +226,7 @@ ul > li > ul > li > a {
 
 .menu-lien:hover {
   text-decoration: none;
-  background-color: {{ sidebarVeryLight }};
+  background-color: {{ sidebarVeryLight|raw }};
 }
 
 .enfant {
@@ -289,7 +289,7 @@ ul > li > ul > li > a {
   color : white;
   position: fixed;
   z-index: 1010;
-  background-color: {{ colorTop }};
+  background-color: {{ colorTop|raw }};
   width: 250px;
   height: 50px;
   display: flex;
@@ -331,7 +331,7 @@ ul > li > ul > li > a {
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: {{ sidebar }};
+  background: {{ sidebar|raw }};
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;

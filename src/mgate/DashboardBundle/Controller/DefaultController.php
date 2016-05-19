@@ -24,6 +24,7 @@ along with Incipio as the file LICENSE.  If not, see <http://www.gnu.org/license
 namespace mgate\DashboardBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -73,6 +74,7 @@ class DefaultController extends Controller
         $sidebar = $this->sumColor($navbarTop,"#FFFFFF",0.8);
         $link = $this->sumColor($navbarTop,"#000000",0.8);
         $sidebarVeryLight = $this->sumColor($navbarTop,"#FFFFFF",0.9);
+        
         return $this->render('mgateDashboardBundle::mgate.css.twig',array(
             'colorTop' => $navbarTop,
             'colorTopLight' => $navbarTopLight,

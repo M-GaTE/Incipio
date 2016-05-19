@@ -52,7 +52,6 @@ Accueil - {{ parent() }}
                     </div>
                     
                 </div>
-                <div style="margin-top:50px;"></div>
                 {% endfor %}
         </div>
         <div class="tab-pane fade row" id="rfp">
@@ -66,7 +65,6 @@ Accueil - {{ parent() }}
                         </div>
                     </div>
                 </div>
-                <div style="margin-top:50px;"></div>
                 {% endfor %}
         </div>
         <div class="tab-pane fade row" id="suivi">
@@ -94,7 +92,6 @@ Accueil - {{ parent() }}
                         </div>
                     </div>
                 </div>
-                <div style="margin-top:50px;"></div>
                 {% endfor %} 
         </div>
         <div class="tab-pane fade row" id="com">
@@ -123,6 +120,17 @@ Accueil - {{ parent() }}
 <span id="jsChart"></span>
 
 <script>
+$(document).ready(function(){
+	$('#gestion').children().each(
+            function(){
+            	console.log($(this).attr('id'),$(this).attr('id'));
+            	getChartAsync($(this).attr('id'),$(this).attr('id'));
+            
+            });
+    $('#gestion').attr('data-loaded',true);
+	
+});
+
 function getChartAsync(sender, chart){
      $.get(
         '{{path('mgate_indicateurs_ajax_suivi')}}',
@@ -140,7 +148,9 @@ function(){
             if($(this).children().first().attr('data-loaded') == 'false'){
                 $($($(this).children().first().attr('href'))).children().each(
                 function(){
-                getChartAsync($(this).attr('id'),$(this).attr('id'));
+                	console.log($(this).attr('id'),$(this).attr('id'));
+                	getChartAsync($(this).attr('id'),$(this).attr('id'));
+                
                 });
                 $(this).children().first().attr('data-loaded',true)
             }
