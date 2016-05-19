@@ -25,7 +25,6 @@
         "friendsofsymfony/jsrouting-bundle": "~1.1",
         "ob/highcharts-bundle": "dev-master",
         "genemu/form-bundle": "2.2.*",
-        "gedmo/doctrine-extensions": "dev-master",        
         "jms/security-extra-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master"               
     },
