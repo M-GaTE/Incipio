@@ -148,7 +148,7 @@ fos_rest:
 # necessaire pour faire marcher fos_rest
 sensio_framework_extra:
   view:
-    annotations: false
+    annotations: true
 
 # JMSSerializerBundle usefull for CommentBundle
 jms_serializer:
