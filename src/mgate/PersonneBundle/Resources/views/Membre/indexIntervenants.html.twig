@@ -1,4 +1,3 @@
-        
 {#
 This file is part of Incipio.
 
@@ -57,30 +56,36 @@ $(document).ready(function() {
           <tr>
             <th>Promotion</th>
             <th>Prénom</th>
-			<th>Nom</th>
+            <th>Nom</th>
             <th>Identifiant</th>
+            <th>Nationalité</th>
             <th>CE</th>
             <th>Etude</th>
           </tr>
         </thead>
         <tbody>
-                {% for membre in membres %}
+          {% for membre in membres %}
           <tr>
             <td>{{ membre.promotion ? "P" ~ membre.promotion }}</td>
             <td><a href="{{ path('mgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.prenom }}</a></td>
-			<td><a href="{{ path('mgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a></td>
+            <td><a href="{{ path('mgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a></td>
             <td>{{ membre.identifiant }}</td>
-            <td>REF : <span class="badge badge-{{ membre.dateConventionEleve ? "success" : "warning" }}">Convention élève {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : "Non signée" }}</span></td>
             <td>
-                    {% for mission in membre.missions %}
-                    <span class="badge badge-{{ membre.dateConventionEleve ? ( membre.dateConventionEleve <= mission.debutOm |date_modify("-7 day") ? "success" : "warning" ) : "error" }}">{{ mission.debutOm ? mission.debutOm  | date("d/m/Y") : "?" }} -> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
-                    | <a href="{{path("mgateSuivi_etude_voir", {'numero' : mission.etude.numero})}}">{{ mission.etude.reference}}-{{ mission.etude.nom }}</a><br/>
-                    {% endfor %}          
+              <span class="label label-{{ membre.nationalite == 'FR' or membre.nationalite == 'Français' ? 'success' : ( membre.nationalite == 'DZ' or membre.nationalite == 'Algérien' ? 'danger' : 'warning' ) }}"      title="{{ membre.nationalite == 'FR' or membre.nationalite == 'Français' ? 'Français' : ( membre.nationalite == 'DZ' or membre.nationalite == 'Algérien' ? 'Ne peut être intervenant' : 'Une Déclaration à la préfecture est nécessaire' ) }}">
+                {{ membre.nationalite }}
+              </span>
+            </td>
+            <td>REF : <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">Convention élève {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : "non signée" }}</span></td>
+            <td>
+              {% for mission in membre.missions %}
+              <span class="label label-{{ membre.dateConventionEleve ? ( membre.dateConventionEleve <= mission.debutOm |date_modify("-7 day") ? "success" : "warning" ) : "danger" }}">{{ mission.debutOm ? mission.debutOm | date("d/m/Y") : "?" }} -> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
+              | <a href="{{path("mgateSuivi_etude_voir", {'numero' : mission.etude.numero})}}">{{ mission.etude.reference}}-{{ mission.etude.nom }}</a><br/>
+              {% endfor %}          
             </td>
           </tr>
-                {% else %}
-                    <li>Pas (encore !) de Membre</li>
-                {% endfor %}
+          {% else %}
+            <li>Pas (encore !) de Membre</li>
+          {% endfor %}
         </tbody>
     </table>
     
